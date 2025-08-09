@@ -11,8 +11,7 @@ composeBom = "2024.09.00"
 appcompat = "1.7.1"
 material = "1.12.0"
 faceDetection = "16.1.7"
-vision = "0.1.1-alpha"
-visionLandmarks = "0.1.1-alpha"
+vision = "1.0.1-alpha"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,7 +33,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 
 face-detection = { module = "com.google.mlkit:face-detection", version.ref = "faceDetection" }
 vision = { module = "com.github.kioskware:vision", version.ref = "vision" }
-vision-landmarks = { module = "com.github.kioskware:vision-landmarks", version.ref = "visionLandmarks" }
+vision-landmarks = { module = "com.github.kioskware:vision-landmarks", version.ref = "vision" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

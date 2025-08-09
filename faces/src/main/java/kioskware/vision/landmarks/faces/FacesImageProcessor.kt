@@ -1,7 +1,7 @@
 package kioskware.vision.landmarks.faces
 
+import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.media.Image
 import androidx.core.graphics.toRectF
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
@@ -67,20 +67,18 @@ class FacesImageProcessor(
     }
 
     override suspend fun onProcess(
-        image: Image,
-        rotationDegrees: Int
+        image: Bitmap,
     ): Scene? {
-        val detectedFaces = detectFaces(image, rotationDegrees) ?: return null
+        val detectedFaces = detectFaces(image, 0) ?: return null
         return createResultScene(
             image = image,
-            rotationDegrees = rotationDegrees,
             objects = detectedFaces.map { face ->
                 face.toSceneObject()
             }
         )
     }
 
-    override suspend fun onRenderVisualization(scene: Scene, overlayCanvas: Canvas) {
+    override suspend fun onRenderVisualization(scene: Scene, image: Bitmap, overlayCanvas: Canvas) {
         visualization(scene, overlayCanvas)
     }
 
@@ -132,10 +130,10 @@ class FacesImageProcessor(
     }
 
     private suspend fun detectFaces(
-        image: Image,
+        image: Bitmap,
         rotationDegrees: Int
     ): List<Face>? = suspendCancellableCoroutine { continuation ->
-        val inputImage = InputImage.fromMediaImage(image, rotationDegrees)
+        val inputImage = InputImage.fromBitmap(image, rotationDegrees)
         faceDetector.process(inputImage)
             .addOnSuccessListener { faces ->
                 continuation.resume(faces)
